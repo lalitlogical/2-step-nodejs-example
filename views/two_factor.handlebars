@@ -1,0 +1,6 @@
+<form class="form-signin" action="/users/two-factor" method="post">
+  <h3 class="form-signin-heading">Two-factor Authentication</h3>
+  <label for="totpPin" class="sr-only">Password</label>
+  <input type="text" pattern="[0-9 ]*" id="totpPin" name='token' class="form-control" placeholder="Enter the 6-digit code" required="" autofocus="">
+  <button class="btn btn-primary btn-block" type="submit">Verify</button>
+</form>

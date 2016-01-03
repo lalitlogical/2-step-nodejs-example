@@ -1,0 +1,68 @@
+<!-- Button trigger modal -->
+{{#if user.key}}
+  <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#turnoff">
+    Turn Off
+  </button>
+
+  <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">
+    Reset 2-Step Validation
+  </button>
+{{ else }}
+  <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">
+    2-Step Validation
+  </button>
+{{/if}}
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+    	<form class="" action="/users/two-factor-setup" method="post">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">2-Step Validation</h4>
+      </div>
+      <div class="modal-body">
+        <ul>
+    			<li> <p>1. Open <strong>Google Authenticator app</strong>.</p> </li>
+          <li> <p>2. Goto menu and click on 'Set up account'.</p> </li>
+    			<li> <p>3. Click 'Scan a barcode' button to read below barcode.</p> </li>
+    			<li id="barcode"> <img src="https://chart.googleapis.com/chart?chs=166x166&chld=L|0&cht=qr&chl={{uri}}"></li>
+          <li> <h4> Manually Add Secret Key </h4> </li>
+    			<li> <p>Please click on 'Enter key provided' and enter below key when it ask. </p></li>
+    			<li id="secret_key"> <strong> {{secret_key}} </strong> </li>
+    			<li> <p>When you have setup account on <strong>Google Authenticator app</strong>, please enter 6 digit code from their to below to activate two-factor authentication.</p></li>
+  		  </ul>
+      </div>
+      <div class="modal-footer">
+        <input type="text" pattern="[0-9 ]*" id="totpPin" name='token' class="form-control" placeholder="Enter the 6-digit code" required="" autofocus="">
+        <button class="btn btn-primary" type="submit">Verify & Save</button>
+        <a class="btn btn-default" data-dismiss="modal">Cancel</a>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{{#if user.key}}
+  <!-- Modal -->
+  <div class="modal fade" id="turnoff" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">2-Step De-Activation</h4>
+        </div>
+        <div class="modal-body">
+          <ul>
+            <li> <p>jhas dfkajsdhas dlkadhaksd ladkj jaklda sdlkhasdha sdkhakdshalsd alsdk</p></li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <a href="/users/two-factor-deactivate" class="btn btn-default" data-dismiss="modal">Cancel</a>
+          <a href="/users/two-factor-deactivate" class="btn btn-primary">De-Activate</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{{/if}}
