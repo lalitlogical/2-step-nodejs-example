@@ -98,7 +98,7 @@ passport.use('login', new LocalStrategy({
   },
   function(req, username, password, done) { 
     // check in mongo if a user with username exists or not
-    User.findOne({ 'username' :  username }, 
+    User.findOne({ $or:[ {'username' :  username }, {'email' :  username }]}, 
       function(err, user) {
         // In case of any error, return using the done method
         if (err)
@@ -249,6 +249,7 @@ router.post('/two-factor-setup', isAuthenticated, function(req, res, next) {
 });
 
 router.get('/two-factor-activated', isAuthenticated, function(req, res, next) {
+  delete req.session.key;
   res.render('two_factor_activated', { user: req.user, title: 'Express', message: req.flash('message') });
 });
 
