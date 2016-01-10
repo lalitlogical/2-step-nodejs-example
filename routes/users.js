@@ -47,6 +47,13 @@ passport.use('signup', new LocalStrategy({
   },
   function(req, username, password, done) {
     findOrCreateUser = function(){
+      var usernameRegex = /^[a-zA-Z0-9]+$/;
+      if (!username.match(usernameRegex)) {
+        console.log('Not valid username');
+        req.session.error = 'Not valid username. Only alphanumeric letter are valid.';
+        return done(null, false, req.flash('message','Not valid username. Only alphanumeric letter are valid.'));
+      };
+
       // find a user in Mongo with provided username
       User.findOne({'username':username},function(err, user) {
         // In case of any error return
@@ -133,7 +140,7 @@ var isAuthenticated = function (req, res, next) {
 router.get('/sign_in', function(req, res, next) {
   if (req.isAuthenticated()) return res.redirect('/');
   delete req.session.key;
-  res.render('sign_in', { title: 'Express', message: req.flash('message'), title: 'User Sign In | 2-step Authentication'});
+  res.render('sign_in', { title: 'Express', message: req.flash('message'), title: 'Sign In | 2-step Authentication'});
 });
  
 /* Handle Login POST */
@@ -160,14 +167,14 @@ router.post('/sign_in', function(req, res, next) {
 /* GET Registration Page */
 router.get('/sign_up', function(req, res, next) {
   if (req.isAuthenticated()) return res.redirect('/');
-  res.render('sign_up', { title: 'Express', message: req.flash('message'), title: 'User Sign Up | 2-step Authentication'});
+  res.render('sign_up', { title: 'Express', message: req.flash('message'), title: 'Sign Up | 2-step Authentication'});
 });
 
  
 /* Handle Registration POST */
 router.post('/sign_up', passport.authenticate('signup', {
   successRedirect: '/index',
-  failureRedirect: '/users/signup',
+  failureRedirect: '/users/sign_up',
   failureFlash : true 
 }));
 
